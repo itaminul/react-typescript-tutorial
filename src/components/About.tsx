@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,14 +12,6 @@ interface FormData {
     deptId: number | null,
     gender: number | null,
     dateOfBirth: string
-}
-interface EmployeeData {
-    middleName: string,
-    lastName: string,
-    fullName: string,
-    file: string,
-    phone: string,
-    deptId: number
 }
 
 const About = () => {
@@ -88,8 +81,6 @@ const About = () => {
         gender: null,
         dateOfBirth: ''
     })
-
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
@@ -139,86 +130,118 @@ const About = () => {
         }
     }
 
-    //featch employee data
-    const [employeeInfo, setEmployeeInfo] = useState<EmployeeData[]>([])
-    const accessToken = localStorage.getItem('accessToken');
-    const feachData = async () => {
-        try {
-            const response = await fetch('http://localhost:9007/employee-info', {
-                method: 'GET',
-                headers: {
-                    //'Content-Type': 'multipart/formdata',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            if (response.ok) {
-                const showData = await response.json()
-                const result = showData.response;
-                setEmployeeInfo(result);
-                // console.log('Json', result)
-            } else {
-                console.log("error")
-            }
-        } catch (error) {
-            console.log("error", error)
-        }
-    }
-    useEffect(() => {
-        feachData();
-    }, [])
-
-    const dataWithMemo = useMemo(() => employeeInfo, [employeeInfo])
     //  console.log('memo', employeeInfo)
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <label>Name</label>
-                <input
-                    type="text"
-                    name="middleName"
-                    onChange={handleChange}
-                // ref={middleName}
-                /> <br /><br />
-                <label>Last Name</label>
-                <input
-                    type="text"
-                    name="lastName"
-                    // ref={lastName}
-                    onChange={handleChange}
-                />
-                <br /><br />
-                <label>Full Name</label>
-                <input
-                    type="text"
-                    name="fullName"
-                    // ref={fullName}
-                    onChange={handleChange}
-                />
-                <br /><br />
-                <label>Phone</label>
-                <input
+            <form className="w-full max-w-lg" onSubmit={handleSubmit}>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Last Name
+                </label>
+                </div>
+                <div className="md:w-2/3">
+                <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" 
+                id="inline-full-name" 
+                type="text" 
+                name="middleName"
+                onChange={handleChange}
+                 />
+                </div>
+            </div>
 
-                    type="text"
-                    name="phone"
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Last Name
+                </label>
+                </div>
+                <div className="md:w-2/3">
+                <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" 
+                id="inline-full-name" 
+                type="text" 
+                name="lastName"
+                // ref={lastName}
+                onChange={handleChange}
+                 />
+                </div>
+            </div>
+
+
+
+
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Full Name
+                </label>
+                </div>
+                <div className="md:w-2/3">
+                <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" 
+                id="inline-full-name" 
+                type="text" 
+                name="fullName"
+                // ref={fullName}
+                onChange={handleChange}
+                 />
+                </div>
+            </div>
+
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                Phone
+                </label>
+                </div>
+                <div className="md:w-2/3">
+                <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" 
+                id="inline-full-name" 
+                type="text" 
+                name="phone"
                     // ref={refMobile}
                     onChange={handleChange}
-                />
-                <br /><br />
+                 />
+                </div>
+            </div>
 
-                <input type="file" name="empImage" onChange={handleFileChange} />
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                Image
+                </label>
+                </div>
+                <div className="md:w-2/3">
+                <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" 
+                id="inline-full-name" 
+                type="file" 
+                name="empImage"
+                    // ref={refMobile}
+                    onChange={handleFileChange}
+                 />
+                </div>
+            </div>
 
-                <br /><br />
-                <label>Dept</label>
-                <select
 
-                    name="deptId"
-                    // ref={deptId}
-                    onChange={handleChange}
-                >
-                    <option value="">--select--</option>
+            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+        Dept
+      </label>
+      <div className="relative">
+        <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+        id="grid-state"
+        name="deptId"
+        // ref={deptId}
+        onChange={handleChange}
+        >
+        <option value="">--select--</option>
                     <option value={1}>PHP</option>
                     <option value={2}>Java</option>
-                </select>
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+      </div>
+    </div>
                 <br /><br />
                 <label>Gender</label>
                 <input
@@ -244,37 +267,7 @@ const About = () => {
                 <button>Submit</button>
 
             </form>
-            <div>
 
-                <table className="tableStyle">
-                    <thead>
-                        <tr>
-                            <td>Middle Name</td>
-                            <td>Full Name</td>
-                            <td>phone</td>
-                            <td>Dept Id ID</td>
-                            <td>Image</td>
-
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {dataWithMemo?.map((item) => (
-                            <tr>
-                                <td>{item.middleName}</td>
-                                <td>{item.fullName}</td>
-                                <td>{item.phone}</td>
-                                <td>{item.deptId}</td>
-                                <td>
-
-                                </td>
-                                <td>Edit</td>
-                            </tr>
-                        ))
-                        }
-                    </tbody>
-                </table>
-            </div>
         </>
     )
 }

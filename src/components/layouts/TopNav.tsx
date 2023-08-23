@@ -9,7 +9,7 @@ const TopNav = () => {
                 </li>
 
                 <li>
-                    <Link to="/about">About</Link>
+                    <Link to="/aboutindex">About</Link>
                 </li>
 
                 <li>

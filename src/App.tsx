@@ -9,6 +9,7 @@ import Contact from './components/Contact';
 import Dahsbord from './components/layouts/Dashbord';
 import Aboutusform from './components/Aboutusform';
 import AboutIndex from './components/AboutIndex';
+import EditAboutus from './components/EditAboutus';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/aboutindex' element={<AboutIndex />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/aboutusform' element={<About />} />
+        <Route path='editaboutus/:id' element={<EditAboutus />} />
       </Routes>
     </div>
   );

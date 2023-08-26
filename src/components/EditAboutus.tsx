@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 const EditAboutus = () => {
@@ -14,23 +14,21 @@ const EditAboutus = () => {
     const handleSubmit = () => {
 
     }
+    console.log("id", id)
 
-
-    const getPreviouseInformation = async(e:any) => {
-        e.preventDefault()
+const[data, setData]= useState([]);
+    const getPreviouseInformation = async() => {        
         try {
             const resonse = await fetch(`${process.env.REACT_APP_API_URL}/employee-info/getByid/${id}`, {
-                method: 'Patch',
+                // method: 'Patch',
                 headers: {
                     Authorization: `Bearer ${accessToken}`                    
                 }
 
-
             })
-
-            if(resonse.ok) {
-                console.log("show success")
-            }
+            .then(res => res.json())
+            .then(data =>setData(data))
+            .catch(error => console.error("Error fetching data : ", error))
         } catch (error) {
             console.log("error", error)
             
@@ -38,9 +36,9 @@ const EditAboutus = () => {
     }
 
     useEffect(() => {
-        // getPreviouseInformation()
+        getPreviouseInformation();
     }, [])
-
+console.log('data', data)
     return (
         <>
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
@@ -48,7 +46,7 @@ const EditAboutus = () => {
                 <div className="md:flex mt-14 md:items-center mb-6">
                     <div className="md:w-1/3">
                         <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Last Name
+                            Middle Name
                         </label>
                     </div>
                     <div className="md:w-2/3">
@@ -56,6 +54,7 @@ const EditAboutus = () => {
                             id="inline-full-name"
                             type="text"
                             name="middleName"
+                            // value={data.middleName}
                             onChange={handleChange}
                         />
                     </div>

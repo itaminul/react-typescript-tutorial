@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom"
 
 const EditAboutus = () => {
     const id = useParams()
-    const accessToken = localStorage.getItem('accesstoken')
-    const handleChange = ()  => {
+    const accessToken = localStorage.getItem('accessToken')
+    console.log("accessToken", accessToken)
+    const handleChange = () => {
 
     }
 
@@ -14,31 +15,38 @@ const EditAboutus = () => {
     const handleSubmit = () => {
 
     }
-    console.log("id", id)
+    console.log(id.id)
 
-const[data, setData]= useState([]);
-    const getPreviouseInformation = async() => {        
+    const [data, setData] = useState({
+        firstName: '',
+        lastName: '',
+        fullName: '',
+        phone: '',
+        deptId: '',
+        dateOfBirth: ''
+    });
+    const getPreviouseInformation = async () => {
         try {
-            const resonse = await fetch(`${process.env.REACT_APP_API_URL}/employee-info/getByid/${id}`, {
-                // method: 'Patch',
+            const resnse = await fetch(`${process.env.REACT_APP_API_URL}/employee-info/getByid/${id.id}`, {
+                method: 'GET',
                 headers: {
-                    Authorization: `Bearer ${accessToken}`                    
+                    Authorization: `Bearer ${accessToken}`
                 }
 
             })
-            .then(res => res.json())
-            .then(data =>setData(data))
-            .catch(error => console.error("Error fetching data : ", error))
+                .then(res => res.json())
+                .then(data => setData(data.response))
+                .catch(error => console.error("Error fetching data : ", error))
         } catch (error) {
             console.log("error", error)
-            
+
         }
     }
 
     useEffect(() => {
         getPreviouseInformation();
     }, [])
-console.log('data', data)
+    console.log('data', data)
     return (
         <>
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
@@ -54,7 +62,7 @@ console.log('data', data)
                             id="inline-full-name"
                             type="text"
                             name="middleName"
-                            // value={data.middleName}
+                            defaultValue={data.firstName}
                             onChange={handleChange}
                         />
                     </div>
@@ -72,6 +80,7 @@ console.log('data', data)
                             type="text"
                             name="lastName"
                             // ref={lastName}
+                            defaultValue={data.lastName}
                             onChange={handleChange}
                         />
                     </div>
